@@ -15,7 +15,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -174,18 +173,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   // #############
   // appends value to the end
   void appendValue(String value) {
-    // number1 opernad number2
+    // number1 operand number2
     // 234       +      5343
 
-    // if is operand and not "."
+    // Check if the input value is an operation and not a dot
     if (value != Btn.dot && int.tryParse(value) == null) {
-      // operand pressed
+      // If an operand is already set and there is a second number, calculate the current operation
       if (operand.isNotEmpty && number2.isNotEmpty) {
-        // TODO calculate the equation before assigning new operand
-        calculate();
+        // Complete the current operation before moving on to the new one
+        calculate(); // This ensures continuity in operations
       }
+      // Set the new operand to the current input value
       operand = value;
     }
+
     // assign value to number1 variable
     else if (number1.isEmpty || operand.isEmpty) {
       // check if value is "." | ex: number1 = "1.2"
@@ -217,7 +218,7 @@ class NeonButton extends StatelessWidget {
   final Color color;
   final bool isZero;
 
-  const NeonButton({
+  const NeonButton({super.key,
     required this.label,
     required this.onPressed,
     this.color = Colors.lightGreen,
@@ -254,11 +255,11 @@ class NeonButton extends StatelessWidget {
             // Matching the first implementation's button style
             backgroundColor: Colors.black,
             foregroundColor: color, // This uses the dynamic color passed to the constructor
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             padding: EdgeInsets.zero,
-            side: BorderSide(color: Colors.transparent, width: 10), // Keeping the side borders transparent
+            side: const BorderSide(color: Colors.transparent, width: 10), // Keeping the side borders transparent
           ),
-          child: Text(label, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          child: Text(label, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         ),
       ),
     );
