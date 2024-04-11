@@ -19,6 +19,8 @@ class Btn {
   static const String n7 = "7";
   static const String n8 = "8";
   static const String n9 = "9";
+  static const String kmToMile = "Km/Mi";
+
 
   static const List<String> buttonValues = [
     del,
@@ -37,6 +39,7 @@ class Btn {
     n2,
     n3,
     add,
+    kmToMile,
     n0,
     dot,
     calculate,

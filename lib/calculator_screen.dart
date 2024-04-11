@@ -1,6 +1,8 @@
 import 'package:euas/button_values.dart';
 import 'package:flutter/material.dart';
 
+import 'kilometer_to_mile_converter.dart';
+
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
 
@@ -61,6 +63,15 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   // ########
   void onBtnTap(String value) {
+
+    if (value == Btn.kmToMile) {
+      // Navigate to the Km/Mile conversion screen
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => KilometerToMileConverter(),
+      ));
+      return;
+    }
+
     if (value == Btn.del) {
       delete();
       return;
@@ -216,7 +227,7 @@ class NeonButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final Color color;
-  final bool isZero;
+  final bool isZero; // This can now be removed if you decide not to use it elsewhere
 
   const NeonButton({super.key,
     required this.label,
@@ -227,16 +238,14 @@ class NeonButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate button width, double width for '0' button
-    double buttonWidth = isZero
-        ? (MediaQuery.of(context).size.width - (10 * 5)) / 4 * 2 + 8
-        : MediaQuery.of(context).size.width / 4 - 12;
+    // The width is uniform for all buttons, including '0'
+    double buttonWidth = MediaQuery.of(context).size.width / 4 - 12;
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
         width: buttonWidth,
-        height: MediaQuery.of(context).size.width / 4 - 12, // Adjust height as necessary
+        height: MediaQuery.of(context).size.width / 4 - 12,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -245,19 +254,17 @@ class NeonButton extends StatelessWidget {
               blurRadius: 15,
             ),
           ],
-          // Retaining the flat rectangular shape as per the first implementation
           border: Border.all(color: Colors.green, width: 6),
           borderRadius: BorderRadius.zero,
         ),
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            // Matching the first implementation's button style
             backgroundColor: Colors.black,
-            foregroundColor: color, // This uses the dynamic color passed to the constructor
+            foregroundColor: color,
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             padding: EdgeInsets.zero,
-            side: const BorderSide(color: Colors.transparent, width: 10), // Keeping the side borders transparent
+            side: const BorderSide(color: Colors.transparent, width: 10),
           ),
           child: Text(label, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         ),
